@@ -26,10 +26,10 @@ class MyApp extends StatelessWidget {
       supportedLocales: S.delegate.supportedLocales,
       theme: AppThemes.light(),
       initialRoute: SplashScreen.routeName,
-          onGenerateRoute: AppRoutes.generateRoute,
-          routes: {
-            SplashScreen.routeName: (_) => const SplashScreen(),
-          },
+      onGenerateRoute: AppRoutes.generateRoute,
+      routes: {
+        SplashScreen.routeName: (_) => const SplashScreen(),
+      },
     );
   }
 }

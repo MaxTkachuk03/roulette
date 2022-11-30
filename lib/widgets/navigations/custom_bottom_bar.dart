@@ -1,19 +1,37 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:roulette/generated/l10n.dart';
+import 'package:roulette/pages/roulette_pages/game_page.dart';
+import 'package:roulette/pages/roulette_pages/rating_page.dart';
 import 'package:roulette/resources/colors.dart';
 import 'package:roulette/resources/fonts.dart';
 import 'package:roulette/resources/icons.dart';
 
 class CustomBottomBar extends StatefulWidget {
-  const CustomBottomBar({super.key});
+  CustomBottomBar({
+    super.key,
+    required this.currentTab,
+    required this.onSelected,
+  });
+
+  int currentTab;
+  final Function(int, String) onSelected;
 
   @override
   State<CustomBottomBar> createState() => _CustomBottomBarState();
 }
 
 class _CustomBottomBarState extends State<CustomBottomBar> {
-  int currentTab = 0;
+  void _onSelected(int index, String route) {
+    if (mounted) { 
+    setState(
+      () {
+        widget.currentTab = index;
+      },
+    );
+    }
+    widget.onSelected(index, route);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,17 +55,23 @@ class _CustomBottomBarState extends State<CustomBottomBar> {
         children: [
           _BottomBarItem(
             icon: AppIcons.game,
-            onPressed: () {},
+            onPressed: () => _onSelected(
+              0,
+              GamePage.routeName,
+            ),
             text: S.of(context).game,
-            color: aqua,
-            isSelected: currentTab == 1,
+            color: widget.currentTab == 0 ? aqua : darkSlateBlue,
+            isSelected: widget.currentTab == 0,
           ),
           _BottomBarItem(
             icon: AppIcons.rating,
-            onPressed: () {},
+            onPressed: () => _onSelected(
+              1,
+              RatingPage.routeName,
+            ),
             text: S.of(context).rating,
-            color: aqua,
-            isSelected: currentTab == 2,
+            color: widget.currentTab == 1 ? aqua : darkSlateBlue,
+            isSelected: widget.currentTab == 1,
           ),
         ],
       ),

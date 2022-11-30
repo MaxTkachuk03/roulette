@@ -6,6 +6,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:roulette/generated/l10n.dart';
 import 'package:roulette/pages/main_page.dart';
 import 'package:roulette/pages/registration_pages/registration_page.dart';
+import 'package:roulette/pages/roulette_pages/game_page.dart';
 import 'package:roulette/resources/colors.dart';
 import 'package:roulette/resources/fonts.dart';
 import 'package:roulette/resources/icons.dart';
@@ -35,7 +36,9 @@ class _SplashScreenState extends State<SplashScreen> {
     Timer(
       const Duration(seconds: 3),
       () {
-        _navigateToPage(MainPage.routeName);
+        _navigateToPage(
+          MainPage.routeName,
+        );
       },
     );
     super.initState();

@@ -3,19 +3,22 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:roulette/resources/colors.dart';
 import 'package:roulette/resources/icons.dart';
 
-class RatingPage extends StatefulWidget {
-  const RatingPage({super.key});
+class SettingsPage extends StatefulWidget {
+  const SettingsPage({super.key});
 
-  static const String routeName = 'roulette_pages/rating';
+  static const String routeName = 'roulette_pages/settings';
 
   @override
-  State<RatingPage> createState() => _RatingPageState();
+  State<SettingsPage> createState() => _SettingsPageState();
 }
 
-class _RatingPageState extends State<RatingPage> {
+class _SettingsPageState extends State<SettingsPage> {
+  final GlobalKey<ScaffoldState> _key = GlobalKey();
   @override
   Widget build(BuildContext context) {
+    _key.currentState?.openDrawer();
     return Scaffold(
+      key: _key,
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.transparent,
