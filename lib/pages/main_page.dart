@@ -18,7 +18,6 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> {
   final GlobalKey<NavigatorState> _navigatorKey = GlobalKey<NavigatorState>();
-  final GlobalKey<ScaffoldState> _key = GlobalKey();
 
   @override
   void initState() {
@@ -39,7 +38,6 @@ class _MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
-    _key.currentState?.openDrawer();
     return MultiBlocProvider(
       providers: [
         BlocProvider(
@@ -56,7 +54,6 @@ class _MainPageState extends State<MainPage> {
         builder: (context, state) {
           final double width = MediaQuery.of(context).size.width;
           return Scaffold(
-            key: _key,
             extendBody: true,
             drawer: CustomDrawer(
               width: width / 1.5,

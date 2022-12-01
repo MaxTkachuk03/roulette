@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -25,6 +23,7 @@ class CustomDrawer extends StatefulWidget {
 }
 
 class _CustomDrawerState extends State<CustomDrawer> {
+
   void _onPressed(
     BuildContext context, {
     required int index,
@@ -40,18 +39,6 @@ class _CustomDrawerState extends State<CustomDrawer> {
             ),
           );
     }
-  }
-
-  void _onChanged(BuildContext context, String route) {
-  Navigator.popAndPushNamed(context, route);
-    // Timer(
-    //   const Duration(seconds: 1),
-    //   () {
-    //     Navigator.pop(
-    //       context,
-    //     );
-    //   },
-    // );
   }
 
   @override
@@ -121,10 +108,11 @@ class _CustomDrawerState extends State<CustomDrawer> {
                   const Spacer(),
                   _DrawerItem(
                     text: S.of(context).settings,
-                    onPressed: () => _onChanged(
-                      context,
-                      SettingsPage.routeName,
-                    ),
+                    onPressed: () {
+                      Navigator.of(context).pushNamed(
+                        SettingsPage.routeName,
+                      );
+                    },
                     icon: AppIcons.settings,
                     color: darkOliveGreen,
                   ),
