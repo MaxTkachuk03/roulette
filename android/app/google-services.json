@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "826640622061",
+    "project_id": "roulette-flutter-e0229",
+    "storage_bucket": "roulette-flutter-e0229.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:826640622061:android:cdf0ce13e8884e9f72c7e4",
+        "android_client_info": {
+          "package_name": "com.example.roulette"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "826640622061-14opho703q9rht56tsnshf9kdq1kmhhr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.roulette",
+            "certificate_hash": "5e177e157590e5370bbf63cae597f8dd22026716"
+          }
+        },
+        {
+          "client_id": "826640622061-ac0p2jniv77gl0j0cem6m5njtpkpp233.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDBX25RHew1Z1Mkfzfzd1uYFRUDTx0lQ5s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "826640622061-ac0p2jniv77gl0j0cem6m5njtpkpp233.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

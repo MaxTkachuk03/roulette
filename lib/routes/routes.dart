@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:roulette/pages/main_page.dart';
+import 'package:roulette/pages/registration_pages/anonymous_registration_page.dart';
 import 'package:roulette/pages/registration_pages/registration_page.dart';
 import 'package:roulette/pages/roulette_pages/game_page.dart';
 import 'package:roulette/pages/roulette_pages/rating_page.dart';
@@ -30,6 +31,12 @@ class AppRoutes {
         break;
       case SettingsPage.routeName:
         builder = (_) => const SettingsPage();
+        break;
+      case AnonRegName.routeName:
+        builder = (_) => const AnonRegName();
+        break;
+      case AuthWrapper.routeName:
+        builder = (_) => const AuthWrapper();
         break;
       default:
         throw Exception(

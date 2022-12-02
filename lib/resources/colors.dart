@@ -24,3 +24,13 @@ const darkSlateBlue = Color.fromRGBO(72, 61, 139, 0.7);
 const mediumSpringGreen = Color.fromRGBO(0, 250, 154, 1.0);
 
 const darkOliveGreen = Color.fromRGBO(85, 107, 47, 1.0);
+
+const red = Color.fromRGBO(255, 0, 0, 0.7);
+
+const darkKhaki = Color.fromRGBO(189, 183, 107, 0.7);
+
+const olive = Color.fromRGBO(128, 128, 0, 0.9);
+
+const limeGreen = Color.fromRGBO(50, 205, 50, 0.9);
+
+const thistle = Color.fromRGBO(216, 191, 216, 0.9);

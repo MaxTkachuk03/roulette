@@ -2,5 +2,12 @@
     "splashScreenText": "Roulette",
     "game": "Game",
     "rating": "Rating",
-    "settings": "Settings"
+    "settings": "Settings",
+    "signUp": "Sign UP",
+    "anonymous": "Anonymous Sign IN",
+    "welcome": "WeLCoMe",
+    "who": "Who are You?",
+    "name": "Please write your nickname",
+    "next": "Continue",
+    "sent": "Email verification sent!"
 }
