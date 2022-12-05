@@ -23,16 +23,25 @@ class MessageLookup extends MessageLookupByLibrary {
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "anonymous": MessageLookupByLibrary.simpleMessage("Anonymous Sign IN"),
+        "chips": MessageLookupByLibrary.simpleMessage("Chips"),
+        "delete": MessageLookupByLibrary.simpleMessage("Delete account"),
+        "email":
+            MessageLookupByLibrary.simpleMessage("Please write your email"),
         "game": MessageLookupByLibrary.simpleMessage("Game"),
+        "logIn": MessageLookupByLibrary.simpleMessage("Login"),
         "name":
             MessageLookupByLibrary.simpleMessage("Please write your nickname"),
         "next": MessageLookupByLibrary.simpleMessage("Continue"),
+        "nickName": MessageLookupByLibrary.simpleMessage("Nickname"),
+        "noUser": MessageLookupByLibrary.simpleMessage("No User"),
+        "passw0rd":
+            MessageLookupByLibrary.simpleMessage("Please write password"),
         "rating": MessageLookupByLibrary.simpleMessage("Rating"),
         "sent":
             MessageLookupByLibrary.simpleMessage("Email verification sent!"),
         "settings": MessageLookupByLibrary.simpleMessage("Settings"),
-        "signUp": MessageLookupByLibrary.simpleMessage("Sign UP"),
-        "splashScreenText": MessageLookupByLibrary.simpleMessage("Roulette"),
+        "signOut": MessageLookupByLibrary.simpleMessage("Sign OUT"),
+        "splashScreenText": MessageLookupByLibrary.simpleMessage("RouLeTTe"),
         "welcome": MessageLookupByLibrary.simpleMessage("WeLCoMe"),
         "who": MessageLookupByLibrary.simpleMessage("Who are You?")
       };

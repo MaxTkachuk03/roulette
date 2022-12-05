@@ -1,13 +1,13 @@
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:roulette/generated/l10n.dart';
 import 'package:roulette/pages/main_page.dart';
-import 'package:roulette/pages/registration_pages/anonymous_registration_page.dart';
+import 'package:roulette/pages/registration_pages/set_name_page.dart';
 import 'package:roulette/resources/borders.dart';
 import 'package:roulette/resources/colors.dart';
 import 'package:roulette/resources/fonts.dart';
+import 'package:roulette/resources/styles.dart';
 import 'package:roulette/services/firebase_registration_mathods.dart';
 import 'package:roulette/widgets/buttons/floating_action_wrapper.dart';
 
@@ -33,7 +33,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
   }
 
   void emailAndPasswordSignUp() {
-    context.read<FirebaseRegistrationMethods>().emailAndPasswordSignUp(
+    context.read<FirebaseAuthMethods>().emailAndPasswordSignUp(
           email: emilController.text,
           password: passwordController.text,
           context: context,
@@ -70,19 +70,16 @@ class _RegistrationPageState extends State<RegistrationPage> {
             TextField(
               controller: emilController,
               cursorColor: darkKhaki,
-              decoration: const InputDecoration(
-                contentPadding: EdgeInsets.all(10.0),
+              decoration: InputDecoration(
+                contentPadding: const EdgeInsets.all(10.0),
                 enabledBorder: enabledBorder,
                 focusedBorder: focusedBorder,
                 errorBorder: errorBorder,
+                labelText: S.of(context).email,
+                labelStyle: labelStyle,
               ),
               keyboardType: TextInputType.emailAddress,
-              style: const TextStyle(
-                color: thistle,
-                fontWeight: AppFonts.regular,
-                fontFamily: AppFonts.fontFamily,
-                fontSize: 20.0,
-              ),
+              style: textFieldStyle,
             ),
             const Spacer(),
             GestureDetector(
@@ -98,19 +95,16 @@ class _RegistrationPageState extends State<RegistrationPage> {
                 obscureText: obscureText,
                 obscuringCharacter: '*',
                 cursorColor: darkKhaki,
-                decoration: const InputDecoration(
-                  contentPadding: EdgeInsets.all(10.0),
+                decoration: InputDecoration(
+                  contentPadding: const EdgeInsets.all(10.0),
                   enabledBorder: enabledBorder,
                   focusedBorder: focusedBorder,
                   errorBorder: errorBorder,
+                  labelText: S.of(context).passw0rd,
+                  labelStyle: labelStyle,
                 ),
                 keyboardType: TextInputType.visiblePassword,
-                style: const TextStyle(
-                  color: thistle,
-                  fontWeight: AppFonts.regular,
-                  fontFamily: AppFonts.fontFamily,
-                  fontSize: 20.0,
-                ),
+                style: textFieldStyle,
                 onTap: () {
                   setState(
                     () {
@@ -118,7 +112,6 @@ class _RegistrationPageState extends State<RegistrationPage> {
                     },
                   );
                 },
-                // readOnly: true,
               ),
             ),
             const Spacer(
@@ -131,22 +124,24 @@ class _RegistrationPageState extends State<RegistrationPage> {
                   context,
                   rootNavigator: true,
                 ).pushNamedAndRemoveUntil(
-                  MainPage.routeName,
+                  SetNamePage.routeName,
                   (_) => false,
                 );
               },
-              label: S.of(context).signUp,
+              label: S.of(context).logIn,
             ),
             const Spacer(),
             FloatingActionWrapper(
               onPressed: () {
-                context.read<FirebaseRegistrationMethods>().anonymousSignIn(
+                context.read<FirebaseAuthMethods>().anonymousSignIn(
                       context: context,
                     );
                 Navigator.of(
                   context,
-                ).pushNamed(
-                  AnonRegName.routeName,
+                  rootNavigator: true,
+                ).pushNamedAndRemoveUntil(
+                  SetNamePage.routeName,
+                  (_) => false,
                 );
               },
               label: S.of(context).anonymous,

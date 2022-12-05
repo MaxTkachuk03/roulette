@@ -50,10 +50,10 @@ class S {
     return Localizations.of<S>(context, S);
   }
 
-  /// `Roulette`
+  /// `RouLeTTe`
   String get splashScreenText {
     return Intl.message(
-      'Roulette',
+      'RouLeTTe',
       name: 'splashScreenText',
       desc: '',
       args: [],
@@ -90,11 +90,11 @@ class S {
     );
   }
 
-  /// `Sign UP`
-  String get signUp {
+  /// `Login`
+  String get logIn {
     return Intl.message(
-      'Sign UP',
-      name: 'signUp',
+      'Login',
+      name: 'logIn',
       desc: '',
       args: [],
     );
@@ -155,6 +155,76 @@ class S {
     return Intl.message(
       'Email verification sent!',
       name: 'sent',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please write your email`
+  String get email {
+    return Intl.message(
+      'Please write your email',
+      name: 'email',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please write password`
+  String get passw0rd {
+    return Intl.message(
+      'Please write password',
+      name: 'passw0rd',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sign OUT`
+  String get signOut {
+    return Intl.message(
+      'Sign OUT',
+      name: 'signOut',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Delete account`
+  String get delete {
+    return Intl.message(
+      'Delete account',
+      name: 'delete',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Nickname`
+  String get nickName {
+    return Intl.message(
+      'Nickname',
+      name: 'nickName',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Chips`
+  String get chips {
+    return Intl.message(
+      'Chips',
+      name: 'chips',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No User`
+  String get noUser {
+    return Intl.message(
+      'No User',
+      name: 'noUser',
       desc: '',
       args: [],
     );

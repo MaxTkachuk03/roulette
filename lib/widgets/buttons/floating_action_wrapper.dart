@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:roulette/generated/l10n.dart';
 import 'package:roulette/resources/colors.dart';
 import 'package:roulette/resources/fonts.dart';
 

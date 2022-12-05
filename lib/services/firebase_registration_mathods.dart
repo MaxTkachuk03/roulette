@@ -4,12 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:roulette/generated/l10n.dart';
 import 'package:roulette/resources/snackbars.dart';
 
-class FirebaseRegistrationMethods {
-  FirebaseRegistrationMethods(
-    this._auth,
-  );
+class FirebaseAuthMethods {
 
-  final FirebaseAuth _auth;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
   Stream<User?> get authState => _auth.authStateChanges();
 
@@ -25,6 +22,24 @@ class FirebaseRegistrationMethods {
       );
       await sendEmailVerification(
         context: context,
+      );
+    } on FirebaseAuthException catch (e) {
+      showSnackBar(
+        context,
+        e.message!,
+      );
+    }
+  }
+
+  Future<void> emailAndPasswordLogin({
+    required String email,
+    required String password,
+    required BuildContext context,
+  }) async {
+    try {
+      await _auth.signInWithEmailAndPassword(
+        email: email,
+        password: password,
       );
     } on FirebaseAuthException catch (e) {
       showSnackBar(

@@ -9,8 +9,8 @@ import 'package:roulette/generated/l10n.dart';
 import 'package:roulette/pages/main_page.dart';
 import 'package:roulette/pages/registration_pages/registration_page.dart';
 import 'package:roulette/resources/colors.dart';
-import 'package:roulette/resources/fonts.dart';
 import 'package:roulette/resources/icons.dart';
+import 'package:roulette/resources/styles.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -24,6 +24,7 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
+    super.initState();
     Timer(
       const Duration(seconds: 3),
       () {
@@ -35,7 +36,6 @@ class _SplashScreenState extends State<SplashScreen> {
         );
       },
     );
-    super.initState();
   }
 
   @override
@@ -54,12 +54,7 @@ class _SplashScreenState extends State<SplashScreen> {
           children: <Widget>[
             AutoSizeText(
               S.of(context).splashScreenText,
-              maxLines: 1,
-              style: const TextStyle(
-                fontWeight: AppFonts.bold,
-                fontSize: 50.0,
-                fontFamily: AppFonts.fontFamily,
-              ),
+              style: pageInfo,
             ),
             const SizedBox(
               height: 24.0,
@@ -82,10 +77,6 @@ class AuthWrapper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final firebaseUser = context.watch<User?>();
-
-    if (firebaseUser != null) {
-      return const MainPage();
-    }
-    return const RegistrationPage();
+    return (firebaseUser != null) ? const MainPage() : const RegistrationPage() ;
   }
 }

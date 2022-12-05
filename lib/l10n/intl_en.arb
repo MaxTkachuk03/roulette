@@ -1,13 +1,20 @@
 {
-    "splashScreenText": "Roulette",
+    "splashScreenText": "RouLeTTe",
     "game": "Game",
     "rating": "Rating",
     "settings": "Settings",
-    "signUp": "Sign UP",
+    "logIn": "Login",
     "anonymous": "Anonymous Sign IN",
     "welcome": "WeLCoMe",
     "who": "Who are You?",
     "name": "Please write your nickname",
     "next": "Continue",
-    "sent": "Email verification sent!"
+    "sent": "Email verification sent!",
+    "email": "Please write your email",
+    "passw0rd": "Please write password",
+    "signOut": "Sign OUT",
+    "delete": "Delete account",
+    "nickName": "Nickname",
+    "chips": "Chips",
+    "noUser": "No User"
 }

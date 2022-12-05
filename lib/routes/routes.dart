@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:roulette/pages/main_page.dart';
-import 'package:roulette/pages/registration_pages/anonymous_registration_page.dart';
+import 'package:roulette/pages/registration_pages/set_name_page.dart';
 import 'package:roulette/pages/registration_pages/registration_page.dart';
 import 'package:roulette/pages/roulette_pages/game_page.dart';
 import 'package:roulette/pages/roulette_pages/rating_page.dart';
@@ -32,8 +32,8 @@ class AppRoutes {
       case SettingsPage.routeName:
         builder = (_) => const SettingsPage();
         break;
-      case AnonRegName.routeName:
-        builder = (_) => const AnonRegName();
+      case SetNamePage.routeName:
+        builder = (_) => const SetNamePage();
         break;
       case AuthWrapper.routeName:
         builder = (_) => const AuthWrapper();

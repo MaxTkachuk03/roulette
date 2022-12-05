@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -12,13 +11,14 @@ import 'package:roulette/services/firebase_registration_mathods.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
-      options: const FirebaseOptions(
-    apiKey: 'AIzaSyDBX25RHew1Z1Mkfzfzd1uYFRUDTx0lQ5s',
-    appId: '1:826640622061:android:cdf0ce13e8884e9f72c7e4',
-    messagingSenderId: '826640622061',
-    projectId: 'roulette-flutter-e0229',
-    storageBucket: 'roulette-flutter-e0229.appspot.com',
-  ),);
+    options: const FirebaseOptions(
+      apiKey: 'AIzaSyDBX25RHew1Z1Mkfzfzd1uYFRUDTx0lQ5s',
+      appId: '1:826640622061:android:cdf0ce13e8884e9f72c7e4',
+      messagingSenderId: '826640622061',
+      projectId: 'roulette-flutter-e0229',
+      storageBucket: 'roulette-flutter-e0229.appspot.com',
+    ),
+  );
   runApp(const MyApp());
 }
 
@@ -29,11 +29,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        Provider<FirebaseRegistrationMethods>(
-          create: (_) => FirebaseRegistrationMethods(FirebaseAuth.instance),
+        Provider<FirebaseAuthMethods>(
+          create: (_) => FirebaseAuthMethods(),
         ),
         StreamProvider(
-          create: (context) => context.read<FirebaseRegistrationMethods>().authState,
+          create: (context) => context.read<FirebaseAuthMethods>().authState,
           initialData: null,
         ),
       ],
@@ -56,4 +56,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
