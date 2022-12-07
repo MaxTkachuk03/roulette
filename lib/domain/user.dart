@@ -17,8 +17,8 @@ class Users {
 
   String? uid;
   final String name;
-  final double chips;
-  final double rating;
+  final int chips;
+  final int rating;
 
   Map<String, dynamic> toJson() {
     return {

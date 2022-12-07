@@ -9,4 +9,5 @@ class AppIcons{
   static const String rating = '$_path/rating.svg';
   static const String settings = '$_path/settings.svg';
   static const String drawer = '$_path/drawer.svg';
+  static const String roulette = '$_path/launcher_icon.png';
 }

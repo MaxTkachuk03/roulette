@@ -25,7 +25,7 @@ class DatabaseServices {
   }
 
   Future<Users?> getUser() async {
-    final snapshot = await usersColl.doc('5G4LhuYtLi6fUfy9gTE6').get();
+    final snapshot = await usersColl.doc('Bd4EQfQ86IDWGrlEC9mx').get();
 
     if (snapshot.exists) {
       return Users.fromJson(snapshot.data()!);
@@ -34,14 +34,14 @@ class DatabaseServices {
   }
 
   void deleteUser() {
-    usersColl.doc('5G4LhuYtLi6fUfy9gTE6').delete();
+    usersColl.doc('Bd4EQfQ86IDWGrlEC9mx').delete();
   }
 
   void updateUser({
-    required double chips,
-    required double rating,
+    required int chips,
+    required int rating,
   }) {
-    usersColl.doc('5G4LhuYtLi6fUfy9gTE6').update(
+    usersColl.doc('Bd4EQfQ86IDWGrlEC9mx').update(
       {
         'chips': chips,
         'rating': rating,

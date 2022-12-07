@@ -6,12 +6,12 @@ class RateState {
     this.rating = 0,
   });
 
-  final double chips;
-  final double rating;
+   int chips;
+  final int rating;
 
   RateState copyWith({
-    double? chips,
-    double? rating,
+    int? chips,
+    int? rating,
   }) {
     return RateState(
       chips: chips ?? this.chips,

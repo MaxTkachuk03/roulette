@@ -21,16 +21,16 @@ class BuildUserInfo extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              '${S.of(context).chips}: ${state.chips}',
+              '${S.of(context).nickName}: ${user.name}',
               style: appBarStyle,
             ),
             Text(
-              '${S.of(context).rating}: ${state.rating}',
+              '${S.of(context).chips}: ${state.chips}',
               style: appBarStyle,
             ),
           ],
         );
-      }
+      },
     );
   }
 }

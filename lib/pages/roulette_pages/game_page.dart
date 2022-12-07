@@ -28,14 +28,14 @@ class GamePage extends StatefulWidget {
 }
 
 class _GamePageState extends State<GamePage> {
-
   final StreamController _dividerController = StreamController<int>();
 
   final _wheelNotifier = StreamController<double>();
 
   final TextEditingController numberController = TextEditingController();
 
-  int out = 0;
+  int count = 0;
+  int f = 0;
 
   @override
   void dispose() {
@@ -53,7 +53,10 @@ class _GamePageState extends State<GamePage> {
   Widget build(BuildContext context) {
     return BlocBuilder<RateBloc, RateState>(
       builder: (context, state) {
-        final double i = state.chips / 10;
+        int i = state.chips;
+        if (state.chips == 0) {
+          state.chips = 100;
+        }
         return Scaffold(
           resizeToAvoidBottomInset: false,
           appBar: AppBar(
@@ -75,6 +78,11 @@ class _GamePageState extends State<GamePage> {
                   );
                 } else if (snapshot.hasData) {
                   final user = snapshot.data!;
+                  context.read<RateBloc>().add(
+                        RateEvent(
+                          chips: user.chips,
+                        ),
+                      );
 
                   // ignore: unnecessary_null_comparison
                   return user == null
@@ -100,16 +108,20 @@ class _GamePageState extends State<GamePage> {
             children: [
               const Spacer(),
               SpinningWheel(
-                Image.asset('assets/icons/launcher_icon.png'),
+                Image.asset(
+                  AppIcons.roulette,
+                ),
                 width: 300,
                 height: 300,
                 initialSpinAngle: _generateRandomAngle(),
-                spinResistance: 0.9,
+                spinResistance: 0.6,
                 canInteractWhileSpinning: false,
                 dividers: 37,
                 onUpdate: _dividerController.add,
                 onEnd: _dividerController.add,
-                secondaryImage: Image.asset('assets/icons/launcher_icon.png'),
+                secondaryImage: Image.asset(
+                  AppIcons.roulette,
+                ),
                 secondaryImageHeight: 100,
                 secondaryImageWidth: 100,
                 shouldStartOrStop: _wheelNotifier.stream,
@@ -119,7 +131,17 @@ class _GamePageState extends State<GamePage> {
                 stream: _dividerController.stream,
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
-                    out = snapshot.data;
+                    if (numberController.text == snapshot.data.toString()) {
+                      context.read<RateBloc>().add(
+                            RateEvent(
+                              chips: f * 35,
+                            ),
+                          );
+                      DatabaseServices().updateUser(
+                        chips: state.chips,
+                        rating: state.rating,
+                      );
+                    }
                     return RouletteScore(snapshot.data);
                   } else {
                     return Container();
@@ -143,6 +165,8 @@ class _GamePageState extends State<GamePage> {
                         enabledBorder: enabledBorder,
                         focusedBorder: focusedBorder,
                         errorBorder: errorBorder,
+                        fillColor: red,
+                        filled: true,
                       ),
                       keyboardType: TextInputType.number,
                       style: numberTextFieldStyle,
@@ -162,13 +186,13 @@ class _GamePageState extends State<GamePage> {
                               Icons.exposure_minus_1,
                             ),
                             onPressed: () {
-                              if (i > 10) {
-                                context.read<RateBloc>().add(
-                                      RateEvent(
-                                        chips: i - i,
-                                      ),
-                                    );
-                                print(i);
+                              if (i > 0) {
+                                count--;
+                                setState(
+                                  () {
+                                    f = (i * count) ~/ 10;
+                                  },
+                                );
                               }
                             },
                           ),
@@ -177,21 +201,20 @@ class _GamePageState extends State<GamePage> {
                               Icons.plus_one_rounded,
                             ),
                             onPressed: () {
-                              setState(
-                                () {
-                                  context.read<RateBloc>().add(
-                                        RateEvent(
-                                          chips: i + i,
-                                        ),
-                                      );
-                                },
-                              );
+                              if (f < state.chips) {
+                                ++count;
+                                setState(
+                                  () {
+                                    f = (i * count) ~/ 10;
+                                  },
+                                );
+                              }
                             },
                           ),
                         ],
                       ),
                       Text(
-                        '${state.chips / 10}',
+                        '$f',
                         style: betStyle,
                       ),
                     ],
@@ -199,9 +222,25 @@ class _GamePageState extends State<GamePage> {
                   FloatingActionWrapper(
                     label: S.of(context).start,
                     onPressed: () {
-                      _wheelNotifier.sink.add(
-                        _generateRandomVelocity(),
-                      );
+                      if (numberController.text.isNotEmpty && f > 0) {
+                        context.read<RateBloc>().add(
+                              RateEvent(
+                                chips: i - f,
+                              ),
+                            );
+                        setState(
+                          () {
+                            f = count = 0;
+                            DatabaseServices().updateUser(
+                                      chips: state.chips,
+                                      rating: state.rating,
+                                    );
+                          },
+                        );
+                        _wheelNotifier.sink.add(
+                          _generateRandomVelocity(),
+                        );
+                      }
                     },
                   ),
                   const Spacer(),
@@ -217,6 +256,12 @@ class _GamePageState extends State<GamePage> {
     );
   }
 }
+
+// if(out.toString() == numberController.text){
+//   context.read<RateBloc>().add(RateEvent(
+//     chips: state.chips + 500,
+//   ),);
+// }
 
 class RouletteScore extends StatelessWidget {
   RouletteScore(this.selected, {super.key});
@@ -270,136 +315,3 @@ class RouletteScore extends StatelessWidget {
     );
   }
 }
-
-/**
- TextField(
-                      controller: numberController,
-                      cursorColor: darkKhaki,
-                      decoration: const InputDecoration(
-                        enabledBorder: enabledBorder,
-                        focusedBorder: focusedBorder,
-                        errorBorder: errorBorder,
-                      ),
-                      keyboardType: TextInputType.number,
-                      style: numberTextFieldStyle,
-                    ),
- */
-
-/*
-
-              SpinningWheel(
-                Image.asset('assets/icons/launcher_icon.png'),
-                width: 300,
-                height: 300,
-                initialSpinAngle: _generateRandomAngle(),
-                spinResistance: 0.9,
-                //canInteractWhileSpinning: false,
-                dividers: 37,
-                onUpdate: go(37),
-                onEnd: go(37),
-              ),
-              const Spacer(),
-              StreamBuilder(
-                stream: _dividerController.stream,
-                builder: (context, snapshot) => snapshot.hasData
-                    ? RouletteScore(snapshot.data)
-                    : Container(),
-              ),
-
- */
-
-/*
-
-StreamController<int> selected = StreamController<int>();
-
-  @override
-  void dispose() {
-    selected.close();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final items = <String>[
-      'Grogu',
-      'Mace Windu',
-      'Obi-Wan Kenobi',
-      'Han Solo',
-      'Luke Skywalker',
-      'Darth Vader',
-      'Yoda',
-      'Ahsoka Tano',
-    ];
-
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Flutter Fortune Wheel'),
-      ),
-      body: GestureDetector(
-        onTap: () {
-          setState(() {
-            selected.add(
-              Fortune.randomInt(0, items.length),
-            );
-          });
-        },
-        child: Column(
-          children: [
-            FortuneWheel(
-              selected: selected.stream,
-              items: [
-                for (var it in items) FortuneItem(child: Text(it)),
-              ],
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-
-
-
-SizedBox(
-                height: 300,
-                width: 300,
-                child: FortuneWheel(
-                  animateFirst: goo,
-                  onAnimationStart: () {
-                    select.add(8);
-                  },
-                  onFling: _wheelNotifier.stream,
-                  selected: select.stream,
-                  items: [
-                    for (int it in labels)
-                      FortuneItem(
-                        style: FortuneItemStyle(
-                          borderWidth: 2.0,
-                          color: it == 0
-                              ? Colors.green
-                              : (it % 2 == 0)
-                                  ? Colors.red
-                                  : Colors.black,
-                          textAlign: TextAlign.end,
-                        ),
-                        child: Text(
-                          '              $it',
-                          style: wheelStyle,
-                          textAlign: TextAlign.end,
-                        ),
-                      ),
-                  ],
-                ),
-              ),
-              StreamBuilder(
-                stream: select.stream,
-                builder: (context, snapshot) => snapshot.hasData
-                    ? Text(
-                        '${labels[selected]}',
-                        style: wheelStyle,
-                      )
-                    : Container(),
-              ),
-
-*/

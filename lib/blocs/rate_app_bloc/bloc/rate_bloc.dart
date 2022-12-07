@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:roulette/services/database.dart';
 
 part 'rate_event.dart';
 part 'rate_state.dart';

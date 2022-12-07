@@ -20,8 +20,8 @@ class SetNamePage extends StatefulWidget {
 
 class _SetNamePageState extends State<SetNamePage> {
   TextEditingController name = TextEditingController();
-  double chips = 2000;
-  double rating = 0;
+  int chips = 2000;
+  int rating = 0;
 
   @override
   void dispose() {
