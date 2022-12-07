@@ -28,61 +28,36 @@ class GamePage extends StatefulWidget {
 }
 
 class _GamePageState extends State<GamePage> {
+
   final StreamController _dividerController = StreamController<int>();
 
   final _wheelNotifier = StreamController<double>();
 
   final TextEditingController numberController = TextEditingController();
 
+  int out = 0;
+
   @override
   void dispose() {
-    super.dispose();
     _dividerController.close();
     _wheelNotifier.close();
+    numberController.dispose();
+    super.dispose();
   }
 
-  double _generateRandomVelocity() => (Random().nextInt(37) * 0) + 0;
+  double _generateRandomVelocity() => (Random().nextDouble() * 6000) + 2000;
 
   double _generateRandomAngle() => Random().nextDouble() * pi * 2;
-
-  void plusStep() {
-    int i = context.watch<RateBloc>().state.chips % 10;
-    // BlocProvider.of<RateBloc>(context, listen: false).add(
-    //   RateEvent(
-    //     chips: i + i,
-    //   ),
-    // );
-    setState(
-      () {
-        //  tab = i;
-      },
-    );
-  }
-
-  void minusStep() {
-    int i = context.watch<RateBloc>().state.chips % 10;
-    if (i >= context.watch<RateBloc>().state.chips % 10) {
-      // BlocProvider.of<RateBloc>(context, listen: false).add(
-      //   RateEvent(
-      //     chips: i - i,
-      //   ),
-      // );
-      setState(
-        () {
-          //    tab = i;
-        },
-      );
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<RateBloc, RateState>(
       builder: (context, state) {
+        final double i = state.chips / 10;
         return Scaffold(
           resizeToAvoidBottomInset: false,
           appBar: AppBar(
-            //elevation: 0,
+            elevation: 0,
             backgroundColor: Colors.transparent,
             leading: IconButton(
               icon: SvgPicture.asset(
@@ -134,14 +109,22 @@ class _GamePageState extends State<GamePage> {
                 dividers: 37,
                 onUpdate: _dividerController.add,
                 onEnd: _dividerController.add,
+                secondaryImage: Image.asset('assets/icons/launcher_icon.png'),
+                secondaryImageHeight: 100,
+                secondaryImageWidth: 100,
                 shouldStartOrStop: _wheelNotifier.stream,
               ),
               const Spacer(),
               StreamBuilder(
                 stream: _dividerController.stream,
-                builder: (context, snapshot) => snapshot.hasData
-                    ? RouletteScore(snapshot.data)
-                    : Container(),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    out = snapshot.data;
+                    return RouletteScore(snapshot.data);
+                  } else {
+                    return Container();
+                  }
+                },
               ),
               const Spacer(),
               Row(
@@ -153,17 +136,17 @@ class _GamePageState extends State<GamePage> {
                     width: 50.0,
                     child: TextField(
                       textAlign: TextAlign.center,
-                        controller: numberController,
-                        cursorColor: darkKhaki,
-                        decoration: const InputDecoration(
-                          contentPadding: EdgeInsets.all(10.0),
-                          enabledBorder: enabledBorder,
-                          focusedBorder: focusedBorder,
-                          errorBorder: errorBorder,
-                        ),
-                        keyboardType: TextInputType.number,
-                        style: numberTextFieldStyle,
+                      controller: numberController,
+                      cursorColor: darkKhaki,
+                      decoration: const InputDecoration(
+                        contentPadding: EdgeInsets.all(10.0),
+                        enabledBorder: enabledBorder,
+                        focusedBorder: focusedBorder,
+                        errorBorder: errorBorder,
                       ),
+                      keyboardType: TextInputType.number,
+                      style: numberTextFieldStyle,
+                    ),
                   ),
                   const Spacer(),
                   Column(
@@ -179,7 +162,14 @@ class _GamePageState extends State<GamePage> {
                               Icons.exposure_minus_1,
                             ),
                             onPressed: () {
-                              minusStep();
+                              if (i > 10) {
+                                context.read<RateBloc>().add(
+                                      RateEvent(
+                                        chips: i - i,
+                                      ),
+                                    );
+                                print(i);
+                              }
                             },
                           ),
                           IconButtonWrapper(
@@ -187,13 +177,21 @@ class _GamePageState extends State<GamePage> {
                               Icons.plus_one_rounded,
                             ),
                             onPressed: () {
-                              plusStep();
+                              setState(
+                                () {
+                                  context.read<RateBloc>().add(
+                                        RateEvent(
+                                          chips: i + i,
+                                        ),
+                                      );
+                                },
+                              );
                             },
                           ),
                         ],
                       ),
                       Text(
-                        '${state.chips}',
+                        '${state.chips / 10}',
                         style: betStyle,
                       ),
                     ],

@@ -38,8 +38,8 @@ class DatabaseServices {
   }
 
   void updateUser({
-    required int chips,
-    required int rating,
+    required double chips,
+    required double rating,
   }) {
     usersColl.doc('5G4LhuYtLi6fUfy9gTE6').update(
       {

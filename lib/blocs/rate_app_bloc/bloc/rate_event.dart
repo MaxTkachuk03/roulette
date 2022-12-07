@@ -6,6 +6,6 @@ class RateEvent {
     this.rating = 0,
   });
 
-  final int chips;
-  final int rating;
+  final double chips;
+  final double rating;
 }
