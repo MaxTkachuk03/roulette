@@ -20,6 +20,8 @@ class SetNamePage extends StatefulWidget {
 
 class _SetNamePageState extends State<SetNamePage> {
   TextEditingController name = TextEditingController();
+  int chips = 2000;
+  int rating = 0;
 
   @override
   void dispose() {
@@ -30,8 +32,8 @@ class _SetNamePageState extends State<SetNamePage> {
   Future<void> addUser() async {
     final Users user = Users(
       name: name.text,
-      chips: 2000,
-      rating: 0,
+      chips: chips,
+      rating: rating,
     );
 
     await DatabaseServices().addUser(user);
@@ -39,61 +41,61 @@ class _SetNamePageState extends State<SetNamePage> {
 
   @override
   Widget build(BuildContext context) {
-        return Scaffold(
-          backgroundColor: darkSlateBlue,
-          body: Container(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 30.0,
+    return Scaffold(
+      backgroundColor: darkSlateBlue,
+      body: Container(
+        padding: const EdgeInsets.symmetric(
+          horizontal: 30.0,
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Spacer(
+              flex: 2,
             ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Spacer(
-                  flex: 2,
-                ),
-                AutoSizeText(
-                  S.of(context).who,
-                  maxLines: 1,
-                  style: pageInfo,
-                ),
-                const Spacer(
-                  flex: 2,
-                ),
-                TextField(
-                  controller: name,
-                  cursorColor: darkKhaki,
-                  decoration: InputDecoration(
-                    contentPadding: const EdgeInsets.all(10.0),
-                    enabledBorder: enabledBorder,
-                    focusedBorder: focusedBorder,
-                    errorBorder: errorBorder,
-                    labelText: S.of(context).name,
-                    labelStyle: labelStyle,
-                  ),
-                  keyboardType: TextInputType.emailAddress,
-                  style: textFieldStyle,
-                ),
-                const Spacer(),
-                FloatingActionWrapper(
-                  onPressed: () async {
-                    addUser();
+            AutoSizeText(
+              S.of(context).who,
+              maxLines: 1,
+              style: pageInfo,
+            ),
+            const Spacer(
+              flex: 2,
+            ),
+            TextField(
+              controller: name,
+              cursorColor: darkKhaki,
+              decoration: InputDecoration(
+                contentPadding: const EdgeInsets.all(10.0),
+                enabledBorder: enabledBorder,
+                focusedBorder: focusedBorder,
+                errorBorder: errorBorder,
+                labelText: S.of(context).name,
+                labelStyle: labelStyle,
+              ),
+              keyboardType: TextInputType.emailAddress,
+              style: textFieldStyle,
+            ),
+            const Spacer(),
+            FloatingActionWrapper(
+              onPressed: () async {
+                addUser();
 
-                    Navigator.of(
-                      context,
-                      rootNavigator: true,
-                    ).pushNamedAndRemoveUntil(
-                      MainPage.routeName,
-                      (_) => false,
-                    );
-                  },
-                  label: S.of(context).next,
-                ),
-                const Spacer(
-                  flex: 3,
-                ),
-              ],
+                Navigator.of(
+                  context,
+                  rootNavigator: true,
+                ).pushNamedAndRemoveUntil(
+                  MainPage.routeName,
+                  (_) => false,
+                );
+              },
+              label: S.of(context).next,
             ),
-          ),
-        );
+            const Spacer(
+              flex: 3,
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }

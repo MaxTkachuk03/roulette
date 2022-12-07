@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:roulette/blocs/rate_app_bloc/bloc/rate_bloc.dart';
 import 'package:roulette/domain/build_user.dart';
 import 'package:roulette/domain/user.dart';
 import 'package:roulette/generated/l10n.dart';
@@ -22,86 +23,106 @@ class SettingsPage extends StatefulWidget {
 class _SettingsPageState extends State<SettingsPage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: Colors.transparent,
-      ),
-      backgroundColor: darkSlateGray,
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 30.0,
+    return BlocBuilder<RateBloc, RateState>(
+      builder: (context, state) {
+        return Scaffold(
+          appBar: AppBar(
+            elevation: 0,
+            backgroundColor: Colors.transparent,
           ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              FutureBuilder<Users?>(
-                future: DatabaseServices().getUser(),
-                builder: (context, snapshot) {
-                  if (snapshot.hasError) {
-                    return Text(
-                      '${snapshot.error}',
-                      style: textFieldStyle,
-                    );
-                  } else if (snapshot.hasData) {
-                    final user = snapshot.data!;
+          backgroundColor: darkSlateGray,
+          body: Center(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 30.0,
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  FutureBuilder<Users?>(
+                    future: DatabaseServices().getUser(),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasError) {
+                        return Text(
+                          '${snapshot.error}',
+                          style: textFieldStyle,
+                        );
+                      } else if (snapshot.hasData) {
+                        final user = snapshot.data!;
 
-                    // ignore: unnecessary_null_comparison
-                    return user == null
-                        ? Center(
-                            child: Text(
-                              S.of(context).noUser,
-                              style: textFieldStyle,
-                            ),
-                          )
-                        : BuildUser(
-                            user: user,
+                        // ignore: unnecessary_null_comparison
+                        return user == null
+                            ? Center(
+                                child: Text(
+                                  S.of(context).noUser,
+                                  style: textFieldStyle,
+                                ),
+                              )
+                            : BuildUser(
+                                user: user,
+                              );
+                      } else {
+                        return const Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      }
+                    },
+                  ),
+                  const SizedBox(
+                    height: 30.0,
+                  ),
+                  FloatingActionWrapper(
+                    label: S.of(context).signOut,
+                    onPressed: () {
+                      context.read<FirebaseAuthMethods>().signOut(
+                            context,
                           );
-                  } else {
-                    return const Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  }
-                },
-              ),
-              const SizedBox(
-                height: 30.0,
-              ),
-              FloatingActionWrapper(
-                label: S.of(context).signOut,
-                onPressed: () {
-                  context.read<FirebaseAuthMethods>().signOut(
+                      Navigator.of(
                         context,
+                      ).popAndPushNamed(
+                        RegistrationPage.routeName,
                       );
-                  Navigator.of(
-                    context,
-                  ).popAndPushNamed(
-                    RegistrationPage.routeName,
-                  );
-                },
-              ),
-              const SizedBox(
-                height: 30.0,
-              ),
-              FloatingActionWrapper(
-                label: S.of(context).delete,
-                onPressed: () {
-                  context.read<FirebaseAuthMethods>().deleteAccount(
+                    },
+                  ),
+                  const SizedBox(
+                    height: 30.0,
+                  ),
+                  FloatingActionWrapper(
+                    label: S.of(context).delete,
+                    onPressed: () {
+                      context.read<FirebaseAuthMethods>().deleteAccount(
+                            context,
+                          );
+                      DatabaseServices().deleteUser();
+                      Navigator.of(
                         context,
+                      ).popAndPushNamed(
+                        RegistrationPage.routeName,
                       );
-                  DatabaseServices().deleteUser();
-                  Navigator.of(
-                    context,
-                  ).popAndPushNamed(
-                    RegistrationPage.routeName,
-                  );
-                },
+                    },
+                  ),
+                  const SizedBox(
+                    height: 30.0,
+                  ),
+                  FloatingActionWrapper(
+                    label: S.of(context).rateApp,
+                    onPressed: () {
+                      setState(
+                        () {
+                          DatabaseServices().updateUser(
+                            chips: state.chips,
+                            rating: state.rating,
+                          );
+                        },
+                      );
+                    },
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 }

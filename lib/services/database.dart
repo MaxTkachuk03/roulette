@@ -37,11 +37,14 @@ class DatabaseServices {
     usersColl.doc('5G4LhuYtLi6fUfy9gTE6').delete();
   }
 
-  void updateUser() {
+  void updateUser({
+    required int chips,
+    required int rating,
+  }) {
     usersColl.doc('5G4LhuYtLi6fUfy9gTE6').update(
       {
-        'chips': 20,
-        'rating': 10,
+        'chips': chips,
+        'rating': rating,
       },
     );
   }

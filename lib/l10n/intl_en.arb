@@ -12,9 +12,12 @@
     "sent": "Email verification sent!",
     "email": "Please write your email",
     "passw0rd": "Please write password",
-    "signOut": "Sign OUT",
-    "delete": "Delete account",
+    "signOut": "Log OUT",
+    "delete": "Delete Account",
     "nickName": "Nickname",
     "chips": "Chips",
-    "noUser": "No User"
+    "noUser": "No User",
+    "rateApp": "Rate app",
+    "start": "Start",
+    "bet": "Bet"
 }

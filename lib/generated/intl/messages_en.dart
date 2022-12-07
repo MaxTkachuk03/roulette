@@ -23,8 +23,9 @@ class MessageLookup extends MessageLookupByLibrary {
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "anonymous": MessageLookupByLibrary.simpleMessage("Anonymous Sign IN"),
+        "bet": MessageLookupByLibrary.simpleMessage("Bet"),
         "chips": MessageLookupByLibrary.simpleMessage("Chips"),
-        "delete": MessageLookupByLibrary.simpleMessage("Delete account"),
+        "delete": MessageLookupByLibrary.simpleMessage("Delete Account"),
         "email":
             MessageLookupByLibrary.simpleMessage("Please write your email"),
         "game": MessageLookupByLibrary.simpleMessage("Game"),
@@ -36,12 +37,14 @@ class MessageLookup extends MessageLookupByLibrary {
         "noUser": MessageLookupByLibrary.simpleMessage("No User"),
         "passw0rd":
             MessageLookupByLibrary.simpleMessage("Please write password"),
+        "rateApp": MessageLookupByLibrary.simpleMessage("Rate app"),
         "rating": MessageLookupByLibrary.simpleMessage("Rating"),
         "sent":
             MessageLookupByLibrary.simpleMessage("Email verification sent!"),
         "settings": MessageLookupByLibrary.simpleMessage("Settings"),
-        "signOut": MessageLookupByLibrary.simpleMessage("Sign OUT"),
+        "signOut": MessageLookupByLibrary.simpleMessage("Log OUT"),
         "splashScreenText": MessageLookupByLibrary.simpleMessage("RouLeTTe"),
+        "start": MessageLookupByLibrary.simpleMessage("Start"),
         "welcome": MessageLookupByLibrary.simpleMessage("WeLCoMe"),
         "who": MessageLookupByLibrary.simpleMessage("Who are You?")
       };

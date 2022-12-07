@@ -180,20 +180,20 @@ class S {
     );
   }
 
-  /// `Sign OUT`
+  /// `Log OUT`
   String get signOut {
     return Intl.message(
-      'Sign OUT',
+      'Log OUT',
       name: 'signOut',
       desc: '',
       args: [],
     );
   }
 
-  /// `Delete account`
+  /// `Delete Account`
   String get delete {
     return Intl.message(
-      'Delete account',
+      'Delete Account',
       name: 'delete',
       desc: '',
       args: [],
@@ -225,6 +225,36 @@ class S {
     return Intl.message(
       'No User',
       name: 'noUser',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Rate app`
+  String get rateApp {
+    return Intl.message(
+      'Rate app',
+      name: 'rateApp',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Start`
+  String get start {
+    return Intl.message(
+      'Start',
+      name: 'start',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Bet`
+  String get bet {
+    return Intl.message(
+      'Bet',
+      name: 'bet',
       desc: '',
       args: [],
     );

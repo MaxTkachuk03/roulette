@@ -1,7 +1,9 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
+import 'package:roulette/blocs/rate_app_bloc/bloc/rate_bloc.dart';
 import 'package:roulette/generated/l10n.dart';
 import 'package:roulette/pages/screens/splash_screen.dart';
 import 'package:roulette/resources/themes.dart';
@@ -27,31 +29,38 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
+    return MultiBlocProvider(
       providers: [
-        Provider<FirebaseAuthMethods>(
-          create: (_) => FirebaseAuthMethods(),
-        ),
-        StreamProvider(
-          create: (context) => context.read<FirebaseAuthMethods>().authState,
-          initialData: null,
+        BlocProvider(
+          create: (context) => RateBloc(),
         ),
       ],
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        localizationsDelegates: const [
-          S.delegate,
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate,
+      child: MultiProvider(
+        providers: [
+          Provider<FirebaseAuthMethods>(
+            create: (_) => FirebaseAuthMethods(),
+          ),
+          StreamProvider(
+            create: (context) => context.read<FirebaseAuthMethods>().authState,
+            initialData: null,
+          ),
         ],
-        supportedLocales: S.delegate.supportedLocales,
-        theme: AppThemes.light(),
-        initialRoute: SplashScreen.routeName,
-        onGenerateRoute: AppRoutes.generateRoute,
-        routes: {
-          SplashScreen.routeName: (context) => const SplashScreen(),
-        },
+        child: MaterialApp(
+          debugShowCheckedModeBanner: false,
+          localizationsDelegates: const [
+            S.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          supportedLocales: S.delegate.supportedLocales,
+          theme: AppThemes.light(),
+          initialRoute: SplashScreen.routeName,
+          onGenerateRoute: AppRoutes.generateRoute,
+          routes: {
+            SplashScreen.routeName: (context) => const SplashScreen(),
+          },
+        ),
       ),
     );
   }
