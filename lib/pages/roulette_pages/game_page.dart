@@ -8,6 +8,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:roulette/domain/build_user_info.dart';
 import 'package:roulette/domain/user.dart';
 import 'package:roulette/generated/l10n.dart';
+import 'package:roulette/resources/borders.dart';
 import 'package:roulette/resources/colors.dart';
 import 'package:roulette/resources/icons.dart';
 import 'package:roulette/services/database.dart';
@@ -29,19 +30,57 @@ class GamePage extends StatefulWidget {
 class _GamePageState extends State<GamePage> {
   final StreamController _dividerController = StreamController<int>();
 
+  final _wheelNotifier = StreamController<double>();
+
+  final TextEditingController numberController = TextEditingController();
+
   @override
   void dispose() {
-    _dividerController.close();
     super.dispose();
+    _dividerController.close();
+    _wheelNotifier.close();
   }
 
+  double _generateRandomVelocity() => (Random().nextInt(37) * 0) + 0;
+
   double _generateRandomAngle() => Random().nextDouble() * pi * 2;
+
+  void plusStep() {
+    int i = context.watch<RateBloc>().state.chips % 10;
+    // BlocProvider.of<RateBloc>(context, listen: false).add(
+    //   RateEvent(
+    //     chips: i + i,
+    //   ),
+    // );
+    setState(
+      () {
+        //  tab = i;
+      },
+    );
+  }
+
+  void minusStep() {
+    int i = context.watch<RateBloc>().state.chips % 10;
+    if (i >= context.watch<RateBloc>().state.chips % 10) {
+      // BlocProvider.of<RateBloc>(context, listen: false).add(
+      //   RateEvent(
+      //     chips: i - i,
+      //   ),
+      // );
+      setState(
+        () {
+          //    tab = i;
+        },
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<RateBloc, RateState>(
       builder: (context, state) {
         return Scaffold(
+          resizeToAvoidBottomInset: false,
           appBar: AppBar(
             //elevation: 0,
             backgroundColor: Colors.transparent,
@@ -87,18 +126,17 @@ class _GamePageState extends State<GamePage> {
               const Spacer(),
               SpinningWheel(
                 Image.asset('assets/icons/launcher_icon.png'),
-                width: 310,
-                height: 310,
+                width: 300,
+                height: 300,
                 initialSpinAngle: _generateRandomAngle(),
-                spinResistance: 0.6,
+                spinResistance: 0.9,
                 canInteractWhileSpinning: false,
                 dividers: 37,
                 onUpdate: _dividerController.add,
                 onEnd: _dividerController.add,
-                secondaryImageHeight: 110,
-                secondaryImageWidth: 110,
+                shouldStartOrStop: _wheelNotifier.stream,
               ),
-              const SizedBox(height: 30),
+              const Spacer(),
               StreamBuilder(
                 stream: _dividerController.stream,
                 builder: (context, snapshot) => snapshot.hasData
@@ -107,40 +145,72 @@ class _GamePageState extends State<GamePage> {
               ),
               const Spacer(),
               Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
+                  const Spacer(),
+                  SizedBox(
+                    height: 50.0,
+                    width: 50.0,
+                    child: TextField(
+                      textAlign: TextAlign.center,
+                        controller: numberController,
+                        cursorColor: darkKhaki,
+                        decoration: const InputDecoration(
+                          contentPadding: EdgeInsets.all(10.0),
+                          enabledBorder: enabledBorder,
+                          focusedBorder: focusedBorder,
+                          errorBorder: errorBorder,
+                        ),
+                        keyboardType: TextInputType.number,
+                        style: numberTextFieldStyle,
+                      ),
+                  ),
+                  const Spacer(),
                   Column(
                     children: [
-                      IconButtonWrapper(
-                        icon: const Icon(
-                          Icons.exposure_minus_1,
-                        ),
-                        onPressed: () {},
+                      Text(
+                        S.of(context).bet,
+                        style: betStyle,
                       ),
-                      IconButtonWrapper(
-                        icon: const Icon(
-                          Icons.plus_one_rounded,
-                        ),
-                        onPressed: () {},
+                      Row(
+                        children: [
+                          IconButtonWrapper(
+                            icon: const Icon(
+                              Icons.exposure_minus_1,
+                            ),
+                            onPressed: () {
+                              minusStep();
+                            },
+                          ),
+                          IconButtonWrapper(
+                            icon: const Icon(
+                              Icons.plus_one_rounded,
+                            ),
+                            onPressed: () {
+                              plusStep();
+                            },
+                          ),
+                        ],
                       ),
-                      const Text(
-                        '10',
-                        style: appBarStyle,
+                      Text(
+                        '${state.chips}',
+                        style: betStyle,
                       ),
                     ],
                   ),
-                  Column(
-                    children: [
-                      FloatingActionWrapper(
-                        label: S.of(context).start,
-                        onPressed: () {},
-                      ),
-                    ],
+                  FloatingActionWrapper(
+                    label: S.of(context).start,
+                    onPressed: () {
+                      _wheelNotifier.sink.add(
+                        _generateRandomVelocity(),
+                      );
+                    },
                   ),
+                  const Spacer(),
                 ],
               ),
               const Spacer(
-                flex: 2,
+                flex: 5,
               ),
             ],
           ),
@@ -151,7 +221,8 @@ class _GamePageState extends State<GamePage> {
 }
 
 class RouletteScore extends StatelessWidget {
-  final dynamic selected;
+  RouletteScore(this.selected, {super.key});
+  final int selected;
 
   final Map<int, String> labels = {
     1: '0',
@@ -193,11 +264,144 @@ class RouletteScore extends StatelessWidget {
     37: '36',
   };
 
-  RouletteScore(this.selected);
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      '${labels[selected]}',
+      style: wheelStyle,
+    );
+  }
+}
+
+/**
+ TextField(
+                      controller: numberController,
+                      cursorColor: darkKhaki,
+                      decoration: const InputDecoration(
+                        enabledBorder: enabledBorder,
+                        focusedBorder: focusedBorder,
+                        errorBorder: errorBorder,
+                      ),
+                      keyboardType: TextInputType.number,
+                      style: numberTextFieldStyle,
+                    ),
+ */
+
+/*
+
+              SpinningWheel(
+                Image.asset('assets/icons/launcher_icon.png'),
+                width: 300,
+                height: 300,
+                initialSpinAngle: _generateRandomAngle(),
+                spinResistance: 0.9,
+                //canInteractWhileSpinning: false,
+                dividers: 37,
+                onUpdate: go(37),
+                onEnd: go(37),
+              ),
+              const Spacer(),
+              StreamBuilder(
+                stream: _dividerController.stream,
+                builder: (context, snapshot) => snapshot.hasData
+                    ? RouletteScore(snapshot.data)
+                    : Container(),
+              ),
+
+ */
+
+/*
+
+StreamController<int> selected = StreamController<int>();
+
+  @override
+  void dispose() {
+    selected.close();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Text('${labels[selected]}',
-        style: TextStyle(fontStyle: FontStyle.italic, fontSize: 24.0));
+    final items = <String>[
+      'Grogu',
+      'Mace Windu',
+      'Obi-Wan Kenobi',
+      'Han Solo',
+      'Luke Skywalker',
+      'Darth Vader',
+      'Yoda',
+      'Ahsoka Tano',
+    ];
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Flutter Fortune Wheel'),
+      ),
+      body: GestureDetector(
+        onTap: () {
+          setState(() {
+            selected.add(
+              Fortune.randomInt(0, items.length),
+            );
+          });
+        },
+        child: Column(
+          children: [
+            FortuneWheel(
+              selected: selected.stream,
+              items: [
+                for (var it in items) FortuneItem(child: Text(it)),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
+
+
+
+
+SizedBox(
+                height: 300,
+                width: 300,
+                child: FortuneWheel(
+                  animateFirst: goo,
+                  onAnimationStart: () {
+                    select.add(8);
+                  },
+                  onFling: _wheelNotifier.stream,
+                  selected: select.stream,
+                  items: [
+                    for (int it in labels)
+                      FortuneItem(
+                        style: FortuneItemStyle(
+                          borderWidth: 2.0,
+                          color: it == 0
+                              ? Colors.green
+                              : (it % 2 == 0)
+                                  ? Colors.red
+                                  : Colors.black,
+                          textAlign: TextAlign.end,
+                        ),
+                        child: Text(
+                          '              $it',
+                          style: wheelStyle,
+                          textAlign: TextAlign.end,
+                        ),
+                      ),
+                  ],
+                ),
+              ),
+              StreamBuilder(
+                stream: select.stream,
+                builder: (context, snapshot) => snapshot.hasData
+                    ? Text(
+                        '${labels[selected]}',
+                        style: wheelStyle,
+                      )
+                    : Container(),
+              ),
+
+*/

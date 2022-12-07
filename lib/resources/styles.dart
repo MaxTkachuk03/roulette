@@ -29,3 +29,24 @@ const appBarStyle = TextStyle(
   fontFamily: AppFonts.fontFamily,
   fontSize: 15.0,
 );
+
+const betStyle = TextStyle(
+  color: mediumSpringGreen,
+  fontWeight: AppFonts.bold,
+  fontFamily: AppFonts.fontFamily,
+  fontSize: 20.0,
+);
+
+const wheelStyle = TextStyle(
+  color: mediumSpringGreen,
+  fontWeight: AppFonts.regular,
+  fontFamily: AppFonts.fontFamily,
+  fontSize: 24.0,
+);
+
+const numberTextFieldStyle = TextStyle(
+  color: thistle,
+  fontWeight: AppFonts.regular,
+  fontFamily: AppFonts.fontFamily,
+  fontSize: 20.0,
+);
